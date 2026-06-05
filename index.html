@@ -1,14 +1,559 @@
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>klar-site-13</title>
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js" defer></script>
-  </head>
-  <body>
-    <h1>klar-site-13</h1>
-    <p>Edit this page with Klar.</p>
-  </body>
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="description" content="FlowKit is a modern iOS app for calm planning, smart automation, and focused daily productivity." />
+  <title>FlowKit — Calm productivity for iPhone</title>
+  <link rel="stylesheet" href="/style.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="index.html" aria-label="FlowKit home">
+        <span class="brand__mark" aria-hidden="true">✓</span>
+        FlowKit
+      </a>
+
+      <nav class="site-nav" aria-label="Primary navigation">
+        <a class="nav-link" href="#features">Features</a>
+        <a class="nav-link" href="#pricing">Pricing</a>
+        <a class="nav-link" href="#about">About</a>
+      </nav>
+
+      <div class="flex items-center gap-2">
+        <button class="btn btn-ghost btn-sm" type="button" aria-label="Toggle theme">Theme</button>
+        <a class="btn btn-primary btn-sm" href="#pricing">Get the app</a>
+        <button class="mobile-menu-toggle" type="button" aria-label="Open navigation" aria-controls="mobile-navigation" aria-expanded="false">☰</button>
+      </div>
+    </div>
+
+    <nav class="container mobile-nav" id="mobile-navigation" aria-label="Mobile navigation">
+      <a class="nav-link" href="#features">Features</a>
+      <a class="nav-link" href="#pricing">Pricing</a>
+      <a class="nav-link" href="#about">About</a>
+      <a class="btn btn-primary" href="#pricing">Get the app</a>
+    </nav>
+  </header>
+
+  <main>
+    <section class="hero" id="top">
+      <div class="container hero__inner">
+        <div class="hero__content">
+          <span class="badge badge-primary">Now available for iPhone</span>
+          <h1>Organize your day before it organizes you.</h1>
+          <p class="text-xl leading-relaxed text-muted-foreground">
+            FlowKit turns tasks, calendars, notes, and routines into one calm daily plan — so you always know what matters next.
+          </p>
+          <div class="hero__actions">
+            <a class="btn btn-primary btn-lg" href="#pricing">Start free</a>
+            <a class="btn btn-outline btn-lg" href="#features">See how it works</a>
+          </div>
+          <div class="grid grid-cols-3 gap-4 mt-6">
+            <div>
+              <strong class="block text-2xl">4.9★</strong>
+              <span class="text-sm text-muted-foreground">App rating</span>
+            </div>
+            <div>
+              <strong class="block text-2xl">18k+</strong>
+              <span class="text-sm text-muted-foreground">Users</span>
+            </div>
+            <div>
+              <strong class="block text-2xl">6 hrs</strong>
+              <span class="text-sm text-muted-foreground">Saved weekly</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="hero__media">
+          <div class="phone-frame" aria-label="FlowKit iOS app screenshot">
+            <div class="app-screen">
+              <div class="app-screen__content">
+                <div class="app-card">
+                  <span class="badge badge-muted mb-3">Today</span>
+                  <h3 class="text-2xl">Focus Sprint</h3>
+                  <p class="text-sm text-muted-foreground mt-2">Three priority tasks queued around your calendar.</p>
+                </div>
+                <div class="app-card grid gap-3">
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="app-pill w-full"></span>
+                    <strong class="text-primary">9:30</strong>
+                  </div>
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="app-pill w-full"></span>
+                    <strong class="text-primary">1:00</strong>
+                  </div>
+                  <div class="flex items-center justify-between gap-3">
+                    <span class="app-pill w-full"></span>
+                    <strong class="text-primary">4:15</strong>
+                  </div>
+                </div>
+                <div class="grid grid-cols-2 gap-3">
+                  <div class="app-card text-center">
+                    <strong class="block text-3xl">92%</strong>
+                    <span class="text-xs text-muted-foreground uppercase tracking-wide">clarity</span>
+                  </div>
+                  <div class="app-card text-center">
+                    <strong class="block text-3xl">18</strong>
+                    <span class="text-xs text-muted-foreground uppercase tracking-wide">saved</span>
+                  </div>
+                </div>
+                <div class="app-card">
+                  <p class="text-sm text-muted-foreground">Next best action</p>
+                  <h4 class="text-lg mt-2">Send launch recap to team</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="logo-bar py-8" aria-label="Trusted companies">
+      <div class="container">
+        <p class="text-center text-sm text-muted-foreground mb-6">Trusted by focused teams at fast-moving companies</p>
+        <div class="logo-bar__grid">
+          <div class="company-logo">NOVA</div>
+          <div class="company-logo">ATLAS</div>
+          <div class="company-logo">KITE</div>
+          <div class="company-logo">LUMEN</div>
+          <div class="company-logo">ORBIT</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="features">
+      <div class="container">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="badge mb-4">Features</span>
+          <h2>Everything you need to move through the day with less friction.</h2>
+          <p class="text-lg text-muted-foreground leading-relaxed mt-4">
+            FlowKit brings planning, automation, and review into a single iOS experience that feels fast, focused, and effortless.
+          </p>
+        </div>
+
+        <div class="feature-row">
+          <div class="feature-row__media">
+            <div class="feature-illustration">
+              <div class="feature-illustration__panel">
+                <span class="icon-bubble mb-4">1</span>
+                <h3>Morning plan</h3>
+                <p class="text-muted-foreground mt-2">A simple plan that respects meetings, deadlines, and available focus time.</p>
+                <div class="grid gap-3 mt-6">
+                  <div class="app-pill"></div>
+                  <div class="app-pill"></div>
+                  <div class="app-pill"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="feature-row__content">
+            <span class="badge badge-muted">Smart planning</span>
+            <h3 class="text-4xl">Start every morning with a plan you can actually finish.</h3>
+            <p class="text-lg text-muted-foreground leading-relaxed">
+              FlowKit reads your calendar, priorities, and recurring routines to recommend a realistic focus list before the day gets noisy.
+            </p>
+            <ul class="check-list">
+              <li>Calendar-aware task scheduling</li>
+              <li>Daily priority recommendations</li>
+              <li>Focus blocks tuned to your energy</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="feature-row feature-row--reverse">
+          <div class="feature-row__media">
+            <div class="feature-illustration">
+              <div class="feature-illustration__panel">
+                <span class="icon-bubble mb-4">2</span>
+                <h3>Automation studio</h3>
+                <p class="text-muted-foreground mt-2">Turn repeated follow-ups and reminders into one-tap workflows.</p>
+                <div class="grid grid-cols-2 gap-3 mt-6">
+                  <div class="app-card text-center"><strong>IF</strong></div>
+                  <div class="app-card text-center"><strong>THEN</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="feature-row__content">
+            <span class="badge badge-muted">Gentle automation</span>
+            <h3 class="text-4xl">Automate the small things that keep stealing your attention.</h3>
+            <p class="text-lg text-muted-foreground leading-relaxed">
+              Create lightweight automations for follow-ups, status updates, recurring tasks, and end-of-day reviews without leaving your phone.
+            </p>
+            <ul class="check-list">
+              <li>Reusable workflow templates</li>
+              <li>Smart reminders based on context</li>
+              <li>Shareable automations for teams</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="feature-row">
+          <div class="feature-row__media">
+            <div class="feature-illustration">
+              <div class="feature-illustration__panel">
+                <span class="icon-bubble mb-4">3</span>
+                <h3>Weekly insights</h3>
+                <p class="text-muted-foreground mt-2">See where momentum grows and where your plan needs protection.</p>
+                <div class="grid grid-cols-3 gap-3 mt-6">
+                  <div class="app-card text-center"><strong>82</strong></div>
+                  <div class="app-card text-center"><strong>14</strong></div>
+                  <div class="app-card text-center"><strong>6</strong></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="feature-row__content">
+            <span class="badge badge-muted">Progress clarity</span>
+            <h3 class="text-4xl">Review your momentum without getting buried in charts.</h3>
+            <p class="text-lg text-muted-foreground leading-relaxed">
+              Weekly summaries reveal patterns, protected focus hours, and completed priorities so you can improve your system without overthinking it.
+            </p>
+            <ul class="check-list">
+              <li>Beautiful weekly summaries</li>
+              <li>Focus-time trends and gentle nudges</li>
+              <li>Private by default, export when needed</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-secondary" id="about">
+      <div class="container">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-12 md:items-center">
+          <div>
+            <span class="badge mb-4">About FlowKit</span>
+            <h2>Built for people who want calm, not another dashboard.</h2>
+          </div>
+          <div class="grid gap-4">
+            <p class="text-lg leading-relaxed text-muted-foreground">
+              Most productivity tools ask you to manage the tool before you manage the work. FlowKit keeps the system small, opinionated, and portable, so planning feels like a quick reset instead of a second job.
+            </p>
+            <p class="text-lg leading-relaxed text-muted-foreground">
+              It is designed for founders, product teams, students, and independent operators who need to capture quickly, decide confidently, and move through the day with fewer context switches.
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="testimonials">
+      <div class="container-narrow">
+        <div class="text-center mb-8">
+          <span class="badge mb-4">Testimonials</span>
+          <h2>People feel lighter with FlowKit.</h2>
+          <p class="text-lg text-muted-foreground leading-relaxed mt-4">
+            From solo founders to growing teams, FlowKit helps people protect their best attention.
+          </p>
+        </div>
+
+        <div class="carousel" aria-label="Customer testimonials">
+          <div class="carousel__track" id="testimonial-track">
+            <article class="carousel__slide">
+              <div class="card testimonial">
+                <p class="testimonial__quote">“FlowKit replaced three planning apps and gave our launch team one shared rhythm. I finally trust my daily plan.”</p>
+                <div class="testimonial__author">
+                  <span class="avatar">MJ</span>
+                  <div>
+                    <strong class="block">Maya Jordan</strong>
+                    <span class="text-sm text-muted-foreground">Founder, Kite Labs</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="carousel__slide">
+              <div class="card testimonial">
+                <p class="testimonial__quote">“The iOS widgets are brilliant. I can see the next important thing without opening Slack or checking another list.”</p>
+                <div class="testimonial__author">
+                  <span class="avatar">AL</span>
+                  <div>
+                    <strong class="block">Ari Lee</strong>
+                    <span class="text-sm text-muted-foreground">Design Lead, Nova Studio</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+
+            <article class="carousel__slide">
+              <div class="card testimonial">
+                <p class="testimonial__quote">“Our team uses FlowKit for weekly priorities and lightweight automation. It is simple enough that everyone actually uses it.”</p>
+                <div class="testimonial__author">
+                  <span class="avatar">SR</span>
+                  <div>
+                    <strong class="block">Sam Rivera</strong>
+                    <span class="text-sm text-muted-foreground">Operations, Atlas Health</span>
+                  </div>
+                </div>
+              </div>
+            </article>
+          </div>
+
+          <div class="carousel__controls">
+            <button class="carousel__button" type="button" aria-label="Previous testimonial" data-carousel-prev>‹</button>
+            <div class="carousel__dots" aria-hidden="true">
+              <span class="carousel__dot is-active" data-carousel-dot></span>
+              <span class="carousel__dot" data-carousel-dot></span>
+              <span class="carousel__dot" data-carousel-dot></span>
+            </div>
+            <button class="carousel__button" type="button" aria-label="Next testimonial" data-carousel-next>›</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section bg-secondary" id="pricing">
+      <div class="container">
+        <div class="text-center max-w-3xl mx-auto mb-12">
+          <span class="badge mb-4">Pricing</span>
+          <h2>Choose the plan that matches your pace.</h2>
+          <p class="text-lg text-muted-foreground leading-relaxed mt-4">
+            Start with the essentials, then unlock deeper automation and team planning when your workflow grows.
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+          <article class="card pricing-card">
+            <div>
+              <span class="badge badge-muted mb-4">Free</span>
+              <h3 class="card__title">For getting organized</h3>
+              <p class="card__text mt-2">The simplest way to plan each day and build a calmer routine.</p>
+            </div>
+            <div class="price">$0<span>/mo</span></div>
+            <ul class="check-list">
+              <li>Daily plan and priority list</li>
+              <li>Three active automations</li>
+              <li>Basic iOS widgets</li>
+              <li>Weekly progress recap</li>
+            </ul>
+            <a class="btn btn-outline w-full" href="#final-cta">Start free</a>
+          </article>
+
+          <article class="card pricing-card pricing-card--featured">
+            <div>
+              <span class="badge badge-primary mb-4">Most popular</span>
+              <h3 class="card__title">Pro</h3>
+              <p class="card__text mt-2">For people who want FlowKit to manage the rhythm of their whole week.</p>
+            </div>
+            <div class="price">$12<span>/mo</span></div>
+            <ul class="check-list">
+              <li>Unlimited planning history</li>
+              <li>Unlimited smart automations</li>
+              <li>Advanced widgets and shortcuts</li>
+              <li>Calendar and reminders sync</li>
+            </ul>
+            <a class="btn btn-primary w-full" href="#final-cta">Go Pro</a>
+          </article>
+
+          <article class="card pricing-card">
+            <div>
+              <span class="badge badge-muted mb-4">Team</span>
+              <h3 class="card__title">For shared momentum</h3>
+              <p class="card__text mt-2">A calm workspace for teams that need aligned priorities without more meetings.</p>
+            </div>
+            <div class="price">$29<span>/user</span></div>
+            <ul class="check-list">
+              <li>Shared team workspaces</li>
+              <li>Priority planning and assignments</li>
+              <li>Admin controls and roles</li>
+              <li>Priority support and onboarding</li>
+            </ul>
+            <a class="btn btn-outline w-full" href="#final-cta">Contact sales</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="faq">
+      <div class="container-narrow">
+        <div class="text-center mb-8">
+          <span class="badge mb-4">FAQ</span>
+          <h2>Questions before you download?</h2>
+          <p class="text-lg text-muted-foreground leading-relaxed mt-4">
+            Here is what people ask most often about FlowKit, sync, privacy, and team use.
+          </p>
+        </div>
+
+        <div class="faq">
+          <div class="faq-item is-open">
+            <button class="faq-question" type="button" aria-expanded="true">Is FlowKit available on iPad?</button>
+            <div class="faq-answer">
+              Yes. FlowKit is universal for iPhone and iPad, and your plans sync between devices through your account.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">Does FlowKit sync with Apple Calendar and Reminders?</button>
+            <div class="faq-answer">
+              Yes. FlowKit can use calendar availability and reminders to recommend realistic focus blocks. You control which calendars and lists are connected.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">Can I use FlowKit with a team?</button>
+            <div class="faq-answer">
+              The Team plan includes shared workspaces, priority boards, assignments, and admin controls so teams can coordinate without adding more meetings.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">What happens if I cancel Pro?</button>
+            <div class="faq-answer">
+              You keep your account and can continue on the Free plan. Pro automations pause, but your tasks, history, and plans remain available.
+            </div>
+          </div>
+
+          <div class="faq-item">
+            <button class="faq-question" type="button" aria-expanded="false">Is my planning data private?</button>
+            <div class="faq-answer">
+              Yes. FlowKit is private by default. Your personal tasks and calendar data are never sold, and team sharing only includes items you explicitly add to a shared workspace.
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" id="final-cta">
+      <div class="container">
+        <div class="cta text-center">
+          <span class="badge mb-4">Ready when you are</span>
+          <h2>Bring calm focus to your iPhone today.</h2>
+          <p class="text-xl leading-relaxed mt-4 mb-6 max-w-3xl mx-auto">
+            Start free in minutes, upgrade when your workflow grows, and keep your most important work moving anywhere.
+          </p>
+          <div class="flex flex-wrap justify-center gap-3">
+            <a class="btn btn-secondary btn-lg" href="#pricing">Download FlowKit</a>
+            <a class="btn btn-outline btn-lg" href="#features">Explore features</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer py-12">
+    <div class="container site-footer__grid">
+      <div>
+        <a class="brand mb-4" href="index.html" aria-label="FlowKit home">
+          <span class="brand__mark" aria-hidden="true">✓</span>
+          FlowKit
+        </a>
+        <p class="text-sm text-muted-foreground">
+          A modern iOS planning app for calm priorities, smart automations, and focused days.
+        </p>
+        <p class="text-sm text-muted-foreground mt-6">© 2026 FlowKit. All rights reserved.</p>
+      </div>
+
+      <div>
+        <h4 class="text-base mb-4">Product</h4>
+        <ul class="footer-list">
+          <li><a class="footer-link" href="#features">Features</a></li>
+          <li><a class="footer-link" href="#pricing">Pricing</a></li>
+          <li><a class="footer-link" href="#testimonials">Reviews</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-base mb-4">Company</h4>
+        <ul class="footer-list">
+          <li><a class="footer-link" href="#about">About</a></li>
+          <li><a class="footer-link" href="#faq">FAQ</a></li>
+          <li><a class="footer-link" href="design-system/design-system.html">Design system</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-base mb-4">Legal</h4>
+        <ul class="footer-list">
+          <li><a class="footer-link" href="#top">Privacy</a></li>
+          <li><a class="footer-link" href="#top">Terms</a></li>
+          <li><a class="footer-link" href="#top">Security</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4 class="text-base mb-4">Get product notes</h4>
+        <p class="text-sm text-muted-foreground mb-4">Monthly ideas for calmer planning and early access to new FlowKit features.</p>
+        <form class="newsletter-form" action="#" method="post">
+          <label class="sr-only" for="newsletter-email">Email address</label>
+          <input class="input" id="newsletter-email" name="email" type="email" placeholder="you@example.com" required />
+          <button class="btn btn-primary" type="submit">Join</button>
+        </form>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    (function () {
+      var themeToggle = document.querySelector('[aria-label="Toggle theme"]');
+      if (themeToggle) {
+        themeToggle.addEventListener('click', function () {
+          document.documentElement.classList.toggle('dark');
+        });
+      }
+
+      var menuToggle = document.querySelector('.mobile-menu-toggle');
+      var mobileNav = document.getElementById('mobile-navigation');
+      if (menuToggle && mobileNav) {
+        menuToggle.addEventListener('click', function () {
+          var isOpen = mobileNav.classList.toggle('is-open');
+          menuToggle.setAttribute('aria-expanded', String(isOpen));
+          menuToggle.setAttribute('aria-label', isOpen ? 'Close navigation' : 'Open navigation');
+        });
+
+        mobileNav.querySelectorAll('a').forEach(function (link) {
+          link.addEventListener('click', function () {
+            mobileNav.classList.remove('is-open');
+            menuToggle.setAttribute('aria-expanded', 'false');
+            menuToggle.setAttribute('aria-label', 'Open navigation');
+          });
+        });
+      }
+
+      var track = document.getElementById('testimonial-track');
+      var dots = Array.prototype.slice.call(document.querySelectorAll('[data-carousel-dot]'));
+      var prev = document.querySelector('[data-carousel-prev]');
+      var next = document.querySelector('[data-carousel-next]');
+      var index = 0;
+      var total = dots.length;
+
+      function updateCarousel() {
+        if (!track) return;
+        track.style.transform = 'translateX(-' + (index * 100) + '%)';
+        dots.forEach(function (dot, dotIndex) {
+          dot.classList.toggle('is-active', dotIndex === index);
+        });
+      }
+
+      if (prev && next && track && total) {
+        prev.addEventListener('click', function () {
+          index = (index - 1 + total) % total;
+          updateCarousel();
+        });
+
+        next.addEventListener('click', function () {
+          index = (index + 1) % total;
+          updateCarousel();
+        });
+
+        dots.forEach(function (dot, dotIndex) {
+          dot.addEventListener('click', function () {
+            index = dotIndex;
+            updateCarousel();
+          });
+        });
+      }
+
+      document.querySelectorAll('.faq-question').forEach(function (button) {
+        button.addEventListener('click', function () {
+          var item = button.closest('.faq-item');
+          if (!item) return;
+          var isOpen = item.classList.toggle('is-open');
+          button.setAttribute('aria-expanded', String(isOpen));
+        });
+      });
+    })();
+  </script>
+</body>
 </html>

@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>FlowKit Design System</title>
+  <link rel="stylesheet" href="/style.css" />
+  <style>
+    /* Documentation chrome only — not part of the design system. Every rule is prefixed .ds-. */
+    .ds-page { padding-top: var(--space-12); padding-bottom: var(--space-16); }
+    .ds-block { padding: var(--space-10) 0; border-bottom: var(--border-1) solid var(--border); }
+    .ds-block > h2 { margin-bottom: var(--space-3); }
+    .ds-note { max-width: var(--content-narrow); color: var(--muted-foreground); margin-bottom: var(--space-6); }
+    .ds-subhead { margin-top: var(--space-8); margin-bottom: var(--space-4); font-size: var(--text-xl); }
+    .ds-specimens { display: flex; flex-wrap: wrap; gap: var(--space-4); align-items: center; }
+    .ds-specimens--grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(15rem, 1fr)); gap: var(--space-4); align-items: stretch; }
+    .ds-specimens--stack { display: grid; gap: var(--space-8); }
+    .ds-sections { padding: var(--space-4); border: var(--border-1) solid var(--border); border-radius: var(--radius-xl); background: var(--surface); }
+    .ds-swatches { display: grid; grid-template-columns: repeat(auto-fit, minmax(10rem, 1fr)); gap: var(--space-4); }
+    .ds-swatch { border: var(--border-1) solid var(--border); border-radius: var(--radius-lg); background: var(--card); overflow: hidden; }
+    .ds-swatch__chip { height: var(--space-16); }
+    .ds-swatch__body { padding: var(--space-4); }
+    .ds-swatch__chip--background { background: var(--background); }
+    .ds-swatch__chip--foreground { background: var(--foreground); }
+    .ds-swatch__chip--primary { background: var(--primary); }
+    .ds-swatch__chip--secondary { background: var(--secondary); }
+    .ds-swatch__chip--muted { background: var(--muted); }
+    .ds-swatch__chip--accent { background: var(--accent); }
+    .ds-swatch__chip--card { background: var(--card); }
+    .ds-swatch__chip--surface { background: var(--surface); }
+    .ds-swatch__chip--border { background: var(--border); }
+    .ds-type-row { display: grid; grid-template-columns: minmax(8rem, 12rem) 1fr; gap: var(--space-4); padding: var(--space-4) 0; border-bottom: var(--border-1) solid var(--border); align-items: baseline; }
+    .ds-scale { display: grid; gap: var(--space-3); }
+    .ds-scale__row { display: grid; grid-template-columns: 6rem 1fr; gap: var(--space-4); align-items: center; }
+    .ds-scale__bar { height: var(--space-4); border-radius: var(--radius-full); background: var(--primary); }
+    .ds-scale__bar--1 { width: var(--space-1); }
+    .ds-scale__bar--2 { width: var(--space-2); }
+    .ds-scale__bar--3 { width: var(--space-3); }
+    .ds-scale__bar--4 { width: var(--space-4); }
+    .ds-scale__bar--6 { width: var(--space-6); }
+    .ds-scale__bar--8 { width: var(--space-8); }
+    .ds-scale__bar--12 { width: var(--space-12); }
+    .ds-scale__bar--16 { width: var(--space-16); }
+    .ds-scale__bar--20 { width: var(--space-20); }
+    .ds-radius-row, .ds-shadow-row { display: grid; grid-template-columns: repeat(auto-fit, minmax(9rem, 1fr)); gap: var(--space-4); }
+    .ds-radius-sample, .ds-shadow-sample { min-height: var(--space-20); border: var(--border-1) solid var(--border); background: var(--card); padding: var(--space-4); display: grid; place-items: center; }
+    .ds-showcase-hero { padding: var(--space-20) var(--space-4); background: radial-gradient(circle at 50% 0, color-mix(in srgb, var(--primary) 18%, transparent), transparent 34rem); }
+    .ds-showcase-hero__inner { max-width: var(--content-width); margin: 0 auto; display: grid; gap: var(--space-6); justify-items: center; text-align: center; }
+    .ds-showcase-hero__title { max-width: 58rem; }
+    .ds-showcase-hero__lead { max-width: 42rem; color: var(--muted-foreground); font-size: var(--text-xl); line-height: var(--leading-relaxed); }
+    .ds-showcase-hero__actions { display: flex; flex-wrap: wrap; gap: var(--space-3); justify-content: center; }
+    .ds-showcase-hero__stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--space-4); width: min(42rem, 100%); margin-top: var(--space-6); }
+    .ds-stat { border: var(--border-1) solid var(--border); border-radius: var(--radius-lg); background: var(--card); padding: var(--space-4); }
+    .ds-mini-card { min-height: var(--space-16); border: var(--border-1) solid var(--border); border-radius: var(--radius-lg); background: var(--card); padding: var(--space-4); }
+    @media (max-width: 767px) {
+      .ds-type-row { grid-template-columns: 1fr; }
+      .ds-showcase-hero__stats { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container site-header__inner">
+      <a class="brand" href="#top" aria-label="FlowKit home">
+        <span class="brand__mark" aria-hidden="true">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M5 13.5L10 18L19 6" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </span>
+        FlowKit
+      </a>
+      <nav class="site-nav" aria-label="Design system navigation">
+        <a class="nav-link" href="#foundations">Foundations</a>
+        <a class="nav-link" href="#components">Components</a>
+        <a class="nav-link" href="#sections">Sections</a>
+      </nav>
+      <div class="flex items-center gap-2">
+        <button class="btn btn-ghost btn-sm" type="button" aria-label="Toggle theme">Theme</button>
+        <a class="btn btn-primary btn-sm" href="../index.html">View landing page</a>
+      </div>
+    </div>
+  </header>
+
+  <div class="ds-showcase-hero" id="top">
+    <div class="ds-showcase-hero__inner">
+      <span class="badge badge-primary">Token-driven iOS app system</span>
+      <h1 class="ds-showcase-hero__title">A clean blue and white design system for conversion-focused app launches.</h1>
+      <p class="ds-showcase-hero__lead">FlowKit combines crisp iOS-inspired components, responsive landing sections, pricing, testimonials, FAQ patterns, and a full utility manifest for Klar editing.</p>
+      <div class="ds-showcase-hero__actions">
+        <a class="btn btn-primary btn-lg" href="#components">Browse components</a>
+        <a class="btn btn-outline btn-lg" href="#sections">View page sections</a>
+      </div>
+      <div class="ds-showcase-hero__stats">
+        <div class="ds-stat">
+          <strong class="block text-2xl text-foreground">30+</strong>
+          <span class="text-sm text-muted-foreground">Reusable classes</span>
+        </div>
+        <div class="ds-stat">
+          <strong class="block text-2xl text-foreground">9</strong>
+          <span class="text-sm text-muted-foreground">Page sections</span>
+        </div>
+        <div class="ds-stat">
+          <strong class="block text-2xl text-foreground">2</strong>
+          <span class="text-sm text-muted-foreground">Color modes</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <main class="container ds-page">
+    <section class="ds-block" id="foundations">
+      <h2>Foundations</h2>
+      <p class="ds-note">Core tokens and utility classes are rendered from <code>style.css</code>. These are the values available to authors in Klar.</p>
+
+      <h3 class="ds-subhead">Colors</h3>
+      <div class="ds-swatches">
+        <div class="ds-swatch"><div class="ds-swatch__chip ds-swatch__chip--background"></div><div class="ds-swatch__body"><strong>Background</strong><p class="text-sm text-muted-foreground">--background</p></div></div>
+        <div class="ds-swatch"><div class="ds-swatch__chip ds-swatch__chip--foreground"></div><div class="ds-swatch__body"><strong>Foreground</strong><p class="text-sm text-muted-foreground">--foreground</p></div></div>
+        <div class="ds-swatch"><div class="ds-swatch__chip ds-swatch__chip--primary"></div><div class="ds-swatch__body"><strong>Primary</strong><p class="text-sm text-muted-foreground">--primary</p></div></div>
+        <div class="ds-swatch"><div class="ds-swatch__chip ds-swatch__chip--secondary"></div><div class="ds-swatch__body"><strong>Secondary</strong><p class="text-sm text-muted-foreground">--secondary</p></div></div>
+        <div class="ds-swatch"><div class="ds-swatch__chip ds-swatch__chip--muted"></div><div class="ds-swatch__body"><strong>Muted</strong><p class="text-sm text-muted-foreground">--muted</p></div></div>
+        <div class="ds-swatch"><div class="ds-swatch__chip ds-swatch__chip--accent"></div><div class="ds-swatch__body"><strong>Accent</strong><p class="text-sm text-muted-foreground">--accent</p></div></div>
+        <div class="ds-swatch"><div class="ds-swatch__chip ds-swatch__chip--card"></div><div class="ds-swatch__body"><strong>Card</strong><p class="text-sm text-muted-foreground">--card</p></div></div>
+        <div class="ds-swatch"><div class="ds-swatch__chip ds-swatch__chip--border"></div><div class="ds-swatch__body"><strong>Border</strong><p class="text-sm text-muted-foreground">--border</p></div></div>
+      </div>
+
+      <h3 class="ds-subhead">Typography</h3>
+      <div>
+        <div class="ds-type-row"><span class="text-sm text-muted-foreground">Display</span><strong class="text-6xl leading-tight tracking-tight">Launch faster</strong></div>
+        <div class="ds-type-row"><span class="text-sm text-muted-foreground">Heading 1</span><strong class="text-5xl leading-tight tracking-tight">Your iPhone workflow, simplified</strong></div>
+        <div class="ds-type-row"><span class="text-sm text-muted-foreground">Heading 2</span><strong class="text-4xl leading-tight tracking-tight">Designed for focused teams</strong></div>
+        <div class="ds-type-row"><span class="text-sm text-muted-foreground">Heading 3</span><strong class="text-3xl leading-snug">Helpful at every step</strong></div>
+        <div class="ds-type-row"><span class="text-sm text-muted-foreground">Lead</span><span class="text-xl leading-relaxed text-muted-foreground">Plan your day, automate routine tasks, and keep priorities visible without opening another desktop dashboard.</span></div>
+        <div class="ds-type-row"><span class="text-sm text-muted-foreground">Body</span><span class="text-base leading-normal">A balanced, readable system-ui stack with tight headlines and relaxed body copy.</span></div>
+      </div>
+
+      <h3 class="ds-subhead">Spacing</h3>
+      <div class="ds-scale">
+        <div class="ds-scale__row"><code>space-1</code><div class="ds-scale__bar ds-scale__bar--1"></div></div>
+        <div class="ds-scale__row"><code>space-2</code><div class="ds-scale__bar ds-scale__bar--2"></div></div>
+        <div class="ds-scale__row"><code>space-3</code><div class="ds-scale__bar ds-scale__bar--3"></div></div>
+        <div class="ds-scale__row"><code>space-4</code><div class="ds-scale__bar ds-scale__bar--4"></div></div>
+        <div class="ds-scale__row"><code>space-6</code><div class="ds-scale__bar ds-scale__bar--6"></div></div>
+        <div class="ds-scale__row"><code>space-8</code><div class="ds-scale__bar ds-scale__bar--8"></div></div>
+        <div class="ds-scale__row"><code>space-12</code><div class="ds-scale__bar ds-scale__bar--12"></div></div>
+        <div class="ds-scale__row"><code>space-16</code><div class="ds-scale__bar ds-scale__bar--16"></div></div>
+        <div class="ds-scale__row"><code>space-20</code><div class="ds-scale__bar ds-scale__bar--20"></div></div>
+      </div>
+
+      <h3 class="ds-subhead">Borders, Radius, Shadows</h3>
+      <div class="ds-radius-row">
+        <div class="ds-radius-sample rounded-sm">Small</div>
+        <div class="ds-radius-sample rounded-md">Medium</div>
+        <div class="ds-radius-sample rounded-lg">Large</div>
+        <div class="ds-radius-sample rounded-xl">XL</div>
+      </div>
+      <div class="ds-shadow-row mt-6">
+        <div class="ds-shadow-sample shadow-none">None</div>
+        <div class="ds-shadow-sample shadow-sm">Small</div>
+        <div class="ds-shadow-sample shadow-md">Medium</div>
+        <div class="ds-shadow-sample shadow-lg">Large</div>
+      </div>
+
+      <h3 class="ds-subhead">Rich text</h3>
+      <article class="prose container-narrow">
+        <h1>Design notes for a focused mobile launch</h1>
+        <p>Use the prose wrapper for article bodies, CMS content, changelogs, and longer marketing explanations. It keeps links, headings, lists, quotes, and inline <code>code</code> visually aligned with the rest of the system.</p>
+        <h2>Why it works</h2>
+        <p>A compact spacing rhythm lets readers scan quickly while still giving important ideas room to breathe.</p>
+        <ul>
+          <li>Clear headings create strong hierarchy.</li>
+          <li>Muted body copy supports calm reading.</li>
+          <li><a href="../index.html">Primary links</a> remain easy to find.</li>
+        </ul>
+        <blockquote>Great mobile experiences feel calm before they feel powerful.</blockquote>
+      </article>
+    </section>
+
+    <section class="ds-block" id="components">
+      <h2>Component Library</h2>
+      <p class="ds-note">Reusable semantic components are designed to be combined with the utility classes listed in the manifest.</p>
+
+      <h3 class="ds-subhead">Buttons</h3>
+      <div class="ds-specimens" data-klar-ds-elements="buttons" data-klar-ds-label="Buttons">
+        <a class="btn btn-primary" href="#" data-klar-ds-label="Primary link">Start free</a>
+        <button class="btn btn-primary" type="button" data-klar-ds-label="Primary button">Start free</button>
+        <a class="btn btn-secondary" href="#" data-klar-ds-label="Secondary link">Watch demo</a>
+        <button class="btn btn-secondary" type="button" data-klar-ds-label="Secondary button">Watch demo</button>
+        <a class="btn btn-outline" href="#" data-klar-ds-label="Outline link">Compare plans</a>
+        <button class="btn btn-outline" type="button" data-klar-ds-label="Outline button">Compare plans</button>
+        <a class="btn btn-ghost" href="#" data-klar-ds-label="Ghost link">Learn more</a>
+        <button class="btn btn-ghost" type="button" data-klar-ds-label="Ghost button">Learn more</button>
+        <a class="btn btn-primary btn-lg" href="#" data-klar-ds-label="Large primary link">Download app</a>
+        <a class="btn btn-outline btn-sm" href="#" data-klar-ds-label="Small outline link">Details</a>
+      </div>
+
+      <h3 class="ds-subhead">Badges and links</h3>
+      <div class="ds-specimens" data-klar-ds-elements="badges" data-klar-ds-label="Badges and links">
+        <span class="badge" data-klar-ds-label="Default badge">New release</span>
+        <span class="badge badge-primary" data-klar-ds-label="Primary badge">iOS ready</span>
+        <span class="badge badge-muted" data-klar-ds-label="Muted badge">Trusted</span>
+        <a class="nav-link" href="#" data-klar-ds-label="Navigation link">Features</a>
+        <a class="cta-link" href="#" data-klar-ds-label="CTA text link">Read more →</a>
+      </div>
+
+      <h3 class="ds-subhead">Cards</h3>
+      <div class="ds-specimens ds-specimens--grid" data-klar-ds-elements="cards" data-klar-ds-label="Cards">
+        <article class="card" data-klar-ds-label="Feature card">
+          <div class="card__body">
+            <span class="icon-bubble mb-4" aria-hidden="true">✓</span>
+            <h3 class="card__title mb-2">Smart planning</h3>
+            <p class="card__text">Turn scattered tasks into a focused daily plan that fits in your pocket.</p>
+          </div>
+        </article>
+        <article class="card pricing-card" data-klar-ds-label="Pricing card">
+          <div>
+            <span class="badge badge-muted mb-4">Pro</span>
+            <h3 class="card__title">For power users</h3>
+          </div>
+          <div class="price">$12<span>/mo</span></div>
+          <a class="btn btn-primary w-full" href="#">Choose Pro</a>
+        </article>
+        <article class="card testimonial" data-klar-ds-label="Testimonial card">
+          <p class="testimonial__quote">“FlowKit made our team’s daily planning feel effortless.”</p>
+          <div class="testimonial__author">
+            <span class="avatar">AR</span>
+            <div><strong class="block">Avery Reed</strong><span class="text-sm text-muted-foreground">Product Lead</span></div>
+          </div>
+        </article>
+      </div>
+
+      <h3 class="ds-subhead">Forms</h3>
+      <div class="ds-specimens ds-specimens--grid" data-klar-ds-elements="forms" data-klar-ds-label="Forms">
+        <form class="card p-6 grid gap-4" data-klar-ds-label="Newsletter form">
+          <div class="field">
+            <label class="label" for="ds-email">Email address</label>
+            <input class="input" id="ds-email" name="email" type="email" placeholder="you@example.com" />
+          </div>
+          <button class="btn btn-primary" type="submit">Join waitlist</button>
+        </form>
+        <form class="card p-6 grid gap-4" data-klar-ds-label="Contact form">
+          <div class="field">
+            <label class="label" for="ds-name">Name</label>
+            <input class="input" id="ds-name" name="name" type="text" placeholder="Jordan Lee" />
+          </div>
+          <div class="field">
+            <label class="label" for="ds-message">Message</label>
+            <textarea class="textarea" id="ds-message" name="message" placeholder="Tell us what you are building"></textarea>
+          </div>
+          <button class="btn btn-primary" type="submit">Send message</button>
+        </form>
+      </div>
+
+      <h3 class="ds-subhead">Container</h3>
+      <div class="ds-specimens ds-specimens--stack" data-klar-ds-elements="containers" data-klar-ds-label="Container">
+        <div class="container bg-secondary rounded-lg p-4" data-klar-ds-label="Default">Default container for most sections.</div>
+        <div class="container-narrow bg-secondary rounded-lg p-4" data-klar-ds-label="Narrow">Narrow container for prose and compact content.</div>
+        <div class="container-wide bg-secondary rounded-lg p-4" data-klar-ds-label="Wide">Wide container for roomy landing layouts.</div>
+      </div>
+
+      <h3 class="ds-subhead">Grid</h3>
+      <div class="ds-specimens ds-specimens--stack" data-klar-ds-elements="grids" data-klar-ds-label="Grid">
+        <div class="grid grid-cols-1 gap-4" data-klar-ds-label="1 column"><div class="ds-mini-card">Priority inbox</div></div>
+        <div class="grid grid-cols-2 gap-4" data-klar-ds-label="2 columns"><div class="ds-mini-card">Plan</div><div class="ds-mini-card">Focus</div></div>
+        <div class="grid grid-cols-3 gap-4" data-klar-ds-label="3 columns"><div class="ds-mini-card">Capture</div><div class="ds-mini-card">Schedule</div><div class="ds-mini-card">Review</div></div>
+      </div>
+
+      <h3 class="ds-subhead">Container and Grid</h3>
+      <div class="ds-specimens ds-specimens--stack" data-klar-ds-elements="containers-and-grids" data-klar-ds-label="Container and Grid">
+        <div class="container grid grid-cols-1 gap-4 bg-secondary rounded-lg p-4" data-klar-ds-label="Default · 1 col"><div class="ds-mini-card">One focused message</div></div>
+        <div class="container grid grid-cols-2 gap-4 bg-secondary rounded-lg p-4" data-klar-ds-label="Default · 2 cols"><div class="ds-mini-card">Feature</div><div class="ds-mini-card">Benefit</div></div>
+        <div class="container grid grid-cols-3 gap-4 bg-secondary rounded-lg p-4" data-klar-ds-label="Default · 3 cols"><div class="ds-mini-card">Free</div><div class="ds-mini-card">Pro</div><div class="ds-mini-card">Team</div></div>
+        <div class="container-narrow grid grid-cols-1 gap-4 bg-secondary rounded-lg p-4" data-klar-ds-label="Narrow · 1 col"><div class="ds-mini-card">Article body</div></div>
+        <div class="container-narrow grid grid-cols-2 gap-4 bg-secondary rounded-lg p-4" data-klar-ds-label="Narrow · 2 cols"><div class="ds-mini-card">Question</div><div class="ds-mini-card">Answer</div></div>
+        <div class="container-narrow grid grid-cols-3 gap-4 bg-secondary rounded-lg p-4" data-klar-ds-label="Narrow · 3 cols"><div class="ds-mini-card">A</div><div class="ds-mini-card">B</div><div class="ds-mini-card">C</div></div>
+        <div class="container-wide grid grid-cols-1 gap-4 bg-secondary rounded-lg p-4" data-klar-ds-label="Wide · 1 col"><div class="ds-mini-card">Wide hero band</div></div>
+        <div class="container-wide grid grid-cols-2 gap-4 bg-secondary rounded-lg p-4" data-klar-ds-label="Wide · 2 cols"><div class="ds-mini-card">Copy</div><div class="ds-mini-card">Product</div></div>
+        <div class="container-wide grid grid-cols-3 gap-4 bg-secondary rounded-lg p-4" data-klar-ds-label="Wide · 3 cols"><div class="ds-mini-card">Features</div><div class="ds-mini-card">Pricing</div><div class="ds-mini-card">FAQ</div></div>
+      </div>
+    </section>
+
+    <section class="ds-block" id="sections">
+      <h2>Sections</h2>
+      <p class="ds-note">Template-ready root sections. Each direct child can be inserted into a real page by Klar.</p>
+
+      <div class="ds-specimens ds-specimens--stack ds-sections" data-klar-ds-elements="Sections" data-klar-ds-label="Page sections">
+        <header class="site-header" data-klar-ds-label="Header">
+          <div class="container site-header__inner">
+            <a class="brand" href="../index.html" aria-label="FlowKit home">
+              <span class="brand__mark" aria-hidden="true">✓</span>
+              FlowKit
+            </a>
+            <nav class="site-nav" aria-label="Primary navigation">
+              <a class="nav-link" href="#features">Features</a>
+              <a class="nav-link" href="#pricing">Pricing</a>
+              <a class="nav-link" href="#about">About</a>
+            </nav>
+            <a class="btn btn-primary btn-sm" href="#pricing">Get the app</a>
+          </div>
+        </header>
+
+        <section class="hero" data-klar-ds-label="Hero">
+          <div class="container hero__inner">
+            <div class="hero__content">
+              <span class="badge badge-primary">Now on iPhone</span>
+              <h1>Organize your day before it organizes you.</h1>
+              <p class="text-xl leading-relaxed text-muted-foreground">FlowKit helps busy people plan priorities, automate follow-ups, and stay focused from a beautiful iOS dashboard.</p>
+              <div class="hero__actions">
+                <a class="btn btn-primary btn-lg" href="#pricing">Start free</a>
+                <a class="btn btn-outline btn-lg" href="#features">See features</a>
+              </div>
+            </div>
+            <div class="hero__media">
+              <div class="phone-frame" aria-label="FlowKit app screenshot">
+                <div class="app-screen">
+                  <div class="app-screen__content">
+                    <div class="app-card"><span class="badge badge-muted mb-3">Today</span><h3 class="text-2xl">Focus Sprint</h3><p class="text-sm text-muted-foreground">3 high-impact tasks queued.</p></div>
+                    <div class="app-card grid gap-3"><div class="app-pill"></div><div class="app-pill"></div><div class="app-pill"></div></div>
+                    <div class="grid grid-cols-2 gap-3"><div class="app-card text-center"><strong>92%</strong><p class="text-xs text-muted-foreground">clarity</p></div><div class="app-card text-center"><strong>18</strong><p class="text-xs text-muted-foreground">saved</p></div></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="logo-bar py-8" data-klar-ds-label="Logo bar">
+          <div class="container">
+            <p class="text-center text-sm text-muted-foreground mb-6">Trusted by focused teams at</p>
+            <div class="logo-bar__grid">
+              <div class="company-logo">NOVA</div>
+              <div class="company-logo">ATLAS</div>
+              <div class="company-logo">KITE</div>
+              <div class="company-logo">LUMEN</div>
+              <div class="company-logo">ORBIT</div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" data-klar-ds-label="Feature rows">
+          <div class="container">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+              <span class="badge mb-4">Features</span>
+              <h2>Three ways FlowKit keeps momentum visible.</h2>
+            </div>
+            <div class="feature-row">
+              <div class="feature-row__media">
+                <div class="feature-illustration"><div class="feature-illustration__panel"><span class="icon-bubble mb-4">1</span><h3>Plan the right work</h3><p class="text-muted-foreground mt-2">Priorities, calendar events, and notes become one calm daily plan.</p></div></div>
+              </div>
+              <div class="feature-row__content">
+                <h3>Start each morning with clarity.</h3>
+                <p class="text-lg text-muted-foreground leading-relaxed">FlowKit recommends a realistic focus list based on due dates, energy, and your recent habits.</p>
+                <ul class="check-list"><li>Smart daily agenda</li><li>Calendar-aware planning</li><li>Gentle priority nudges</li></ul>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section bg-secondary" data-klar-ds-label="Testimonials carousel">
+          <div class="container-narrow">
+            <div class="text-center mb-8">
+              <span class="badge mb-4">Testimonials</span>
+              <h2>People feel lighter with FlowKit.</h2>
+            </div>
+            <div class="carousel" aria-label="Customer testimonials">
+              <div class="carousel__track">
+                <article class="carousel__slide"><div class="card testimonial"><p class="testimonial__quote">“FlowKit replaced three planning apps and gave our launch team one shared rhythm.”</p><div class="testimonial__author"><span class="avatar">MJ</span><div><strong>Maya Jordan</strong><p class="text-sm text-muted-foreground">Founder, Kite Labs</p></div></div></div></article>
+              </div>
+              <div class="carousel__controls">
+                <button class="carousel__button" type="button" aria-label="Previous testimonial">‹</button>
+                <div class="carousel__dots" aria-hidden="true"><span class="carousel__dot is-active"></span><span class="carousel__dot"></span><span class="carousel__dot"></span></div>
+                <button class="carousel__button" type="button" aria-label="Next testimonial">›</button>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" data-klar-ds-label="Pricing table">
+          <div class="container">
+            <div class="text-center max-w-3xl mx-auto mb-12">
+              <span class="badge mb-4">Pricing</span>
+              <h2>Choose the plan that matches your pace.</h2>
+            </div>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+              <article class="card pricing-card"><h3>Free</h3><div class="price">$0<span>/mo</span></div><ul class="check-list"><li>Daily plan</li><li>3 automations</li><li>Basic widgets</li></ul><a class="btn btn-outline w-full" href="#">Start free</a></article>
+              <article class="card pricing-card pricing-card--featured"><span class="badge badge-primary">Most popular</span><h3>Pro</h3><div class="price">$12<span>/mo</span></div><ul class="check-list"><li>Unlimited plans</li><li>Smart automation</li><li>Advanced analytics</li></ul><a class="btn btn-primary w-full" href="#">Go Pro</a></article>
+              <article class="card pricing-card"><h3>Team</h3><div class="price">$29<span>/user</span></div><ul class="check-list"><li>Shared workspaces</li><li>Admin controls</li><li>Priority support</li></ul><a class="btn btn-outline w-full" href="#">Contact sales</a></article>
+            </div>
+          </div>
+        </section>
+
+        <section class="section bg-secondary" data-klar-ds-label="FAQ accordion">
+          <div class="container-narrow">
+            <div class="text-center mb-8">
+              <span class="badge mb-4">FAQ</span>
+              <h2>Questions before you download?</h2>
+            </div>
+            <div class="faq">
+              <div class="faq-item is-open"><button class="faq-question" type="button">Is FlowKit available on iPad?</button><div class="faq-answer">Yes. FlowKit is universal for iPhone and iPad, with a Mac companion app planned.</div></div>
+              <div class="faq-item"><button class="faq-question" type="button">Can I use it for a team?</button><div class="faq-answer">Team plans include shared workspaces, assignments, and admin controls.</div></div>
+              <div class="faq-item"><button class="faq-question" type="button">Does it sync with Apple Calendar?</button><div class="faq-answer">Yes. FlowKit can read calendar availability to recommend realistic focus blocks.</div></div>
+            </div>
+          </div>
+        </section>
+
+        <section class="section" data-klar-ds-label="Text content">
+          <article class="container-narrow prose">
+            <h1>How FlowKit approaches calm productivity</h1>
+            <p>FlowKit is built around a simple belief: the best productivity system should reduce decisions, not create more of them.</p>
+            <h2>One plan, many inputs</h2>
+            <p>Your tasks, reminders, calendar events, and notes can all become a short daily plan. The app highlights what matters now and keeps everything else available without noise.</p>
+            <ul>
+              <li>Capture ideas as they arrive.</li>
+              <li>Let automations handle repeated follow-ups.</li>
+              <li>Review progress with gentle weekly insights.</li>
+            </ul>
+            <blockquote>Momentum is easier to maintain when the next step is obvious.</blockquote>
+          </article>
+        </section>
+
+        <section class="section" data-klar-ds-label="Final CTA">
+          <div class="container">
+            <div class="cta text-center">
+              <span class="badge mb-4">Ready when you are</span>
+              <h2>Bring calm focus to your iPhone today.</h2>
+              <p class="text-xl leading-relaxed mt-4 mb-6">Start free, upgrade when your workflow grows, and keep your day moving anywhere.</p>
+              <a class="btn btn-secondary btn-lg" href="#pricing">Download FlowKit</a>
+            </div>
+          </div>
+        </section>
+
+        <footer class="site-footer py-12" data-klar-ds-label="Footer">
+          <div class="container site-footer__grid">
+            <div>
+              <a class="brand mb-4" href="../index.html"><span class="brand__mark">✓</span>FlowKit</a>
+              <p class="text-sm text-muted-foreground">A modern iOS planning app for calm, focused days.</p>
+            </div>
+            <div><h4 class="text-base mb-4">Product</h4><ul class="footer-list"><li><a class="footer-link" href="#features">Features</a></li><li><a class="footer-link" href="#pricing">Pricing</a></li></ul></div>
+            <div><h4 class="text-base mb-4">Company</h4><ul class="footer-list"><li><a class="footer-link" href="#about">About</a></li><li><a class="footer-link" href="#faq">FAQ</a></li></ul></div>
+            <div><h4 class="text-base mb-4">Legal</h4><ul class="footer-list"><li><a class="footer-link" href="#">Privacy</a></li><li><a class="footer-link" href="#">Terms</a></li></ul></div>
+            <form class="newsletter-form" action="#" method="post">
+              <label class="sr-only" for="section-newsletter">Email</label>
+              <input class="input" id="section-newsletter" name="email" type="email" placeholder="Email address" />
+              <button class="btn btn-primary" type="submit">Join</button>
+            </form>
+          </div>
+        </footer>
+      </div>
+    </section>
+  </main>
+
+  <footer class="site-footer py-8">
+    <div class="container flex flex-col md:flex-row items-center justify-between gap-4">
+      <p class="text-sm text-muted-foreground">FlowKit design system for Klar.</p>
+      <a class="footer-link" href="#top">Back to top</a>
+    </div>
+  </footer>
+
+  <!-- Foundation utility manifest for the Klar editor.
+       Every value references a class that exists in style.css. -->
+  <script type="application/json" data-klar-ds>
+    {
+      "classes": {
+        "Background color": [
+          { "label": "Page", "value": "bg-background" },
+          { "label": "Foreground", "value": "bg-foreground" },
+          { "label": "Brand", "value": "bg-primary" },
+          { "label": "Secondary", "value": "bg-secondary" },
+          { "label": "Muted", "value": "bg-muted" },
+          { "label": "Accent", "value": "bg-accent" },
+          { "label": "Card surface", "value": "bg-card" },
+          { "label": "Surface", "value": "bg-surface" },
+          { "label": "Destructive", "value": "bg-destructive" },
+          { "label": "Transparent", "value": "bg-transparent" }
+        ],
+        "Text color": [
+          { "label": "Body", "value": "text-foreground" },
+          { "label": "On foreground", "value": "text-background" },
+          { "label": "Primary", "value": "text-primary" },
+          { "label": "On brand", "value": "text-primary-foreground" },
+          { "label": "On secondary", "value": "text-secondary-foreground" },
+          { "label": "On accent", "value": "text-accent-foreground" },
+          { "label": "Muted", "value": "text-muted-foreground" },
+          { "label": "Destructive", "value": "text-destructive" },
+          { "label": "White", "value": "text-white" },
+          { "label": "Black", "value": "text-black" }
+        ],
+        "Border": [
+          { "label": "All none", "value": "border-0" },
+          { "label": "All small", "value": "border" },
+          { "label": "All medium", "value": "border-2" },
+          { "label": "All large", "value": "border-4" },
+          { "label": "Top small", "value": "border-t" },
+          { "label": "Bottom small", "value": "border-b" },
+          { "label": "Left large", "value": "border-l-4" }
+        ],
+        "Border color": [
+          { "label": "Muted", "value": "border-muted" },
+          { "label": "Foreground", "value": "border-foreground" },
+          { "label": "Primary", "value": "border-primary" },
+          { "label": "Transparent", "value": "border-transparent" }
+        ],
+        "Font size": [
+          { "label": "XS", "value": "text-xs" },
+          { "label": "Small", "value": "text-sm" },
+          { "label": "Base", "value": "text-base" },
+          { "label": "Large", "value": "text-lg" },
+          { "label": "XL", "value": "text-xl" },
+          { "label": "2XL", "value": "text-2xl" },
+          { "label": "3XL", "value": "text-3xl" },
+          { "label": "4XL", "value": "text-4xl" },
+          { "label": "5XL", "value": "text-5xl" },
+          { "label": "6XL", "value": "text-6xl" },
+          { "label": "4XL", "value": "md:text-4xl" },
+          { "label": "5XL", "value": "md:text-5xl" },
+          { "label": "5XL", "value": "lg:text-5xl" },
+          { "label": "6XL", "value": "lg:text-6xl" }
+        ],
+        "Font weight": [
+          { "label": "Normal", "value": "font-normal" },
+          { "label": "Medium", "value": "font-medium" },
+          { "label": "Semibold", "value": "font-semibold" },
+          { "label": "Bold", "value": "font-bold" }
+        ],
+        "Line height": [
+          { "label": "Tight", "value": "leading-tight" },
+          { "label": "Snug", "value": "leading-snug" },
+          { "label": "Normal", "value": "leading-normal" },
+          { "label": "Relaxed", "value": "leading-relaxed" }
+        ],
+        "Letter spacing": [
+          { "label": "Tight", "value": "tracking-tight" },
+          { "label": "Normal", "value": "tracking-normal" },
+          { "label": "Wide", "value": "tracking-wide" },
+          { "label": "Wider", "value": "tracking-wider" }
+        ],
+        "Text": [
+          { "label": "Align left", "value": "text-left" },
+          { "label": "Align center", "value": "text-center" },
+          { "label": "Align right", "value": "text-right" },
+          { "label": "Uppercase", "value": "uppercase" },
+          { "label": "Italic", "value": "italic" },
+          { "label": "Underline", "value": "underline" },
+          { "label": "Sans font", "value": "font-sans" },
+          { "label": "Truncate", "value": "truncate" },
+          { "label": "Align left", "value": "md:text-left" },
+          { "label": "Align center", "value": "md:text-center" },
+          { "label": "Align left", "value": "lg:text-left" }
+        ],
+        "Typography": [
+          { "label": "Display", "value": "text-6xl font-bold tracking-tight leading-tight" },
+          { "label": "Heading 1", "value": "text-5xl font-bold tracking-tight leading-tight" },
+          { "label": "Heading 2", "value": "text-4xl font-bold tracking-tight leading-tight" },
+          { "label": "Heading 3", "value": "text-3xl font-bold tracking-tight leading-snug" },
+          { "label": "Heading 4", "value": "text-xl font-semibold leading-snug" },
+          { "label": "Lead", "value": "text-xl font-normal leading-relaxed" },
+          { "label": "Body", "value": "text-base font-normal leading-normal" },
+          { "label": "Small", "value": "text-sm font-normal leading-normal" },
+          { "label": "Meta", "value": "text-xs font-semibold uppercase tracking-wide" }
+        ],
+        "Display": [
+          { "label": "Block", "value": "block" },
+          { "label": "Inline block", "value": "inline-block" },
+          { "label": "Inline", "value": "inline" },
+          { "label": "Flex", "value": "flex" },
+          { "label": "Inline flex", "value": "inline-flex" },
+          { "label": "Grid", "value": "grid" },
+          { "label": "Hidden", "value": "hidden" },
+          { "label": "Block", "value": "md:block" },
+          { "label": "Flex", "value": "md:flex" },
+          { "label": "Grid", "value": "md:grid" },
+          { "label": "Hidden", "value": "md:hidden" },
+          { "label": "Block", "value": "lg:block" },
+          { "label": "Flex", "value": "lg:flex" },
+          { "label": "Grid", "value": "lg:grid" },
+          { "label": "Hidden", "value": "lg:hidden" }
+        ],
+        "Flexbox": [
+          { "label": "Row", "value": "flex-row" },
+          { "label": "Column", "value": "flex-col" },
+          { "label": "Wrap", "value": "flex-wrap" },
+          { "label": "Flex 1", "value": "flex-1" },
+          { "label": "No shrink", "value": "flex-shrink-0" },
+          { "label": "Items start", "value": "items-start" },
+          { "label": "Items center", "value": "items-center" },
+          { "label": "Items end", "value": "items-end" },
+          { "label": "Justify start", "value": "justify-start" },
+          { "label": "Justify center", "value": "justify-center" },
+          { "label": "Justify between", "value": "justify-between" },
+          { "label": "Justify end", "value": "justify-end" },
+          { "label": "Row", "value": "md:flex-row" },
+          { "label": "Items center", "value": "md:items-center" },
+          { "label": "Justify start", "value": "md:justify-start" }
+        ],
+        "Grid columns": [
+          { "label": "1 column", "value": "grid-cols-1" },
+          { "label": "2 columns", "value": "grid-cols-2" },
+          { "label": "3 columns", "value": "grid-cols-3" },
+          { "label": "Span 1", "value": "col-span-1" },
+          { "label": "Span 2", "value": "col-span-2" },
+          { "label": "Span full", "value": "col-span-full" },
+          { "label": "2 columns", "value": "md:grid-cols-2" },
+          { "label": "3 columns", "value": "md:grid-cols-3" },
+          { "label": "Span 2", "value": "md:col-span-2" },
+          { "label": "2 columns", "value": "lg:grid-cols-2" },
+          { "label": "3 columns", "value": "lg:grid-cols-3" },
+          { "label": "Span 2", "value": "lg:col-span-2" }
+        ],
+        "Gap": [
+          { "label": "3XS", "value": "gap-1" },
+          { "label": "2XS", "value": "gap-2" },
+          { "label": "XS", "value": "gap-3" },
+          { "label": "Small", "value": "gap-4" },
+          { "label": "Small plus", "value": "gap-5" },
+          { "label": "Medium", "value": "gap-6" },
+          { "label": "Large", "value": "gap-8" },
+          { "label": "Large plus", "value": "gap-10" },
+          { "label": "XL", "value": "gap-12" },
+          { "label": "Large", "value": "md:gap-8" },
+          { "label": "XL", "value": "md:gap-12" },
+          { "label": "Large plus", "value": "lg:gap-10" },
+          { "label": "XL", "value": "lg:gap-12" }
+        ],
+        "Margin": [
+          { "label": "Center horizontal", "value": "mx-auto" },
+          { "label": "All none", "value": "m-0" },
+          { "label": "All small", "value": "m-4" },
+          { "label": "All medium", "value": "m-6" },
+          { "label": "All large", "value": "m-8" },
+          { "label": "Horizontal none", "value": "mx-0" },
+          { "label": "Horizontal small", "value": "mx-4" },
+          { "label": "Horizontal medium", "value": "mx-6" },
+          { "label": "Horizontal large", "value": "mx-8" },
+          { "label": "Vertical none", "value": "my-0" },
+          { "label": "Vertical small", "value": "my-4" },
+          { "label": "Vertical large", "value": "my-8" },
+          { "label": "Vertical XL", "value": "my-12" },
+          { "label": "Top none", "value": "mt-0" },
+          { "label": "Top 2XS", "value": "mt-2" },
+          { "label": "Top small", "value": "mt-4" },
+          { "label": "Top medium", "value": "mt-6" },
+          { "label": "Top large", "value": "mt-8" },
+          { "label": "Top XL", "value": "mt-12" },
+          { "label": "Top 2XL", "value": "mt-16" },
+          { "label": "Right none", "value": "mr-0" },
+          { "label": "Right small", "value": "mr-4" },
+          { "label": "Right medium", "value": "mr-6" },
+          { "label": "Right large", "value": "mr-8" },
+          { "label": "Bottom none", "value": "mb-0" },
+          { "label": "Bottom 2XS", "value": "mb-2" },
+          { "label": "Bottom XS", "value": "mb-3" },
+          { "label": "Bottom small", "value": "mb-4" },
+          { "label": "Bottom medium", "value": "mb-6" },
+          { "label": "Bottom large", "value": "mb-8" },
+          { "label": "Bottom XL", "value": "mb-12" },
+          { "label": "Left none", "value": "ml-0" },
+          { "label": "Left small", "value": "ml-4" },
+          { "label": "Left medium", "value": "ml-6" },
+          { "label": "Left large", "value": "ml-8" },
+          { "label": "Top none", "value": "md:mt-0" }
+        ],
+        "Padding": [
+          { "label": "All none", "value": "p-0" },
+          { "label": "All 3XS", "value": "p-1" },
+          { "label": "All 2XS", "value": "p-2" },
+          { "label": "All XS", "value": "p-3" },
+          { "label": "All small", "value": "p-4" },
+          { "label": "All small plus", "value": "p-5" },
+          { "label": "All medium", "value": "p-6" },
+          { "label": "All large", "value": "p-8" },
+          { "label": "All XL", "value": "p-12" },
+          { "label": "Horizontal none", "value": "px-0" },
+          { "label": "Horizontal XS", "value": "px-3" },
+          { "label": "Horizontal small", "value": "px-4" },
+          { "label": "Horizontal small plus", "value": "px-5" },
+          { "label": "Horizontal medium", "value": "px-6" },
+          { "label": "Horizontal large", "value": "px-8" },
+          { "label": "Horizontal XL", "value": "px-12" },
+          { "label": "Vertical none", "value": "py-0" },
+          { "label": "Vertical 2XS", "value": "py-2" },
+          { "label": "Vertical XS", "value": "py-3" },
+          { "label": "Vertical small", "value": "py-4" },
+          { "label": "Vertical medium", "value": "py-6" },
+          { "label": "Vertical large", "value": "py-8" },
+          { "label": "Vertical XL", "value": "py-12" },
+          { "label": "Vertical 2XL", "value": "py-16" },
+          { "label": "Vertical 3XL", "value": "py-20" },
+          { "label": "Top none", "value": "pt-0" },
+          { "label": "Top small", "value": "pt-4" },
+          { "label": "Top medium", "value": "pt-6" },
+          { "label": "Top large", "value": "pt-8" },
+          { "label": "Top XL", "value": "pt-12" },
+          { "label": "Top 2XL", "value": "pt-16" },
+          { "label": "Top 3XL", "value": "pt-20" },
+          { "label": "Right none", "value": "pr-0" },
+          { "label": "Right small", "value": "pr-4" },
+          { "label": "Right medium", "value": "pr-6" },
+          { "label": "Right large", "value": "pr-8" },
+          { "label": "Bottom none", "value": "pb-0" },
+          { "label": "Bottom small", "value": "pb-4" },
+          { "label": "Bottom medium", "value": "pb-6" },
+          { "label": "Bottom large", "value": "pb-8" },
+          { "label": "Bottom XL", "value": "pb-12" },
+          { "label": "Bottom 2XL", "value": "pb-16" },
+          { "label": "Left none", "value": "pl-0" },
+          { "label": "Left small", "value": "pl-4" },
+          { "label": "Left medium", "value": "pl-6" },
+          { "label": "Left large", "value": "pl-8" },
+          { "label": "All large", "value": "md:p-8" },
+          { "label": "Vertical 3XL", "value": "md:py-20" },
+          { "label": "Top 4XL", "value": "md:pt-24" },
+          { "label": "Bottom 3XL", "value": "md:pb-20" },
+          { "label": "Vertical 3XL", "value": "lg:py-20" },
+          { "label": "Top 4XL", "value": "lg:pt-24" },
+          { "label": "Bottom 3XL", "value": "lg:pb-20" }
+        ],
+        "Sizing": [
+          { "label": "Width full", "value": "w-full" },
+          { "label": "Height full", "value": "h-full" },
+          { "label": "Min height screen", "value": "min-h-screen" },
+          { "label": "Min height header", "value": "min-h-header" },
+          { "label": "Max width narrow", "value": "max-w-narrow" },
+          { "label": "Max width 2xl", "value": "max-w-2xl" },
+          { "label": "Max width 3xl", "value": "max-w-3xl" },
+          { "label": "Max width 4xl", "value": "max-w-4xl" },
+          { "label": "Max width 6xl", "value": "max-w-6xl" },
+          { "label": "Max width 7xl", "value": "max-w-7xl" }
+        ],
+        "Radius": [
+          { "label": "None", "value": "rounded-none" },
+          { "label": "Small", "value": "rounded-sm" },
+          { "label": "Medium", "value": "rounded-md" },
+          { "label": "Large", "value": "rounded-lg" },
+          { "label": "XL", "value": "rounded-xl" },
+          { "label": "Full", "value": "rounded-full" }
+        ],
+        "Shadows": [
+          { "label": "None", "value": "shadow-none" },
+          { "label": "Small", "value": "shadow-sm" },
+          { "label": "Medium", "value": "shadow-md" },
+          { "label": "Large", "value": "shadow-lg" }
+        ],
+        "Position": [
+          { "label": "Relative", "value": "relative" },
+          { "label": "Absolute", "value": "absolute" },
+          { "label": "Sticky", "value": "sticky" },
+          { "label": "Fixed", "value": "fixed" },
+          { "label": "Inset 0", "value": "inset-0" },
+          { "label": "Top 0", "value": "top-0" },
+          { "label": "Right 0", "value": "right-0" },
+          { "label": "Bottom 0", "value": "bottom-0" },
+          { "label": "Left 0", "value": "left-0" },
+          { "label": "Z 10", "value": "z-10" },
+          { "label": "Z 30", "value": "z-30" }
+        ],
+        "Object fit & aspect": [
+          { "label": "Object cover", "value": "object-cover" },
+          { "label": "Aspect square", "value": "aspect-square" },
+          { "label": "Aspect video", "value": "aspect-video" },
+          { "label": "Aspect phone", "value": "aspect-phone" }
+        ],
+        "Effects": [
+          { "label": "Overflow hidden", "value": "overflow-hidden" },
+          { "label": "Transition", "value": "transition" },
+          { "label": "Cursor pointer", "value": "cursor-pointer" },
+          { "label": "Backdrop blur", "value": "backdrop-blur" },
+          { "label": "Screen-reader only", "value": "sr-only" }
+        ],
+        "Rich text": [
+          { "label": "Prose", "value": "prose" }
+        ],
+        "Container": [
+          { "label": "Default", "value": "container" },
+          { "label": "Narrow", "value": "container-narrow" },
+          { "label": "Wide", "value": "container-wide" }
+        ],
+        "Grid": [
+          { "label": "1 column", "value": "grid grid-cols-1" },
+          { "label": "2 columns", "value": "grid grid-cols-2" },
+          { "label": "3 columns", "value": "grid grid-cols-3" }
+        ],
+        "Container and Grid": [
+          { "label": "Default · 1 col", "value": "container grid grid-cols-1" },
+          { "label": "Default · 2 cols", "value": "container grid grid-cols-2" },
+          { "label": "Default · 3 cols", "value": "container grid grid-cols-3" },
+          { "label": "Narrow · 1 col", "value": "container-narrow grid grid-cols-1" },
+          { "label": "Narrow · 2 cols", "value": "container-narrow grid grid-cols-2" },
+          { "label": "Narrow · 3 cols", "value": "container-narrow grid grid-cols-3" },
+          { "label": "Wide · 1 col", "value": "container-wide grid grid-cols-1" },
+          { "label": "Wide · 2 cols", "value": "container-wide grid grid-cols-2" },
+          { "label": "Wide · 3 cols", "value": "container-wide grid grid-cols-3" }
+        ]
+      }
+    }
+  </script>
+
+  <script>
+    (function () {
+      var toggle = document.querySelector('[aria-label="Toggle theme"]');
+      if (toggle) {
+        toggle.addEventListener('click', function () {
+          document.documentElement.classList.toggle('dark');
+        });
+      }
+
+      document.querySelectorAll('.faq-question').forEach(function (button) {
+        button.addEventListener('click', function () {
+          var item = button.closest('.faq-item');
+          if (item) item.classList.toggle('is-open');
+        });
+      });
+    })();
+  </script>
+</body>
+</html>
